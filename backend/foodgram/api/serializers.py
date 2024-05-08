@@ -208,11 +208,19 @@ class UserSubscriptionSerializer(MyUserSerializer):
             'recipes_count'
         )
 
-    def get_recipes(self, object):
-        author_recipes = object.recipes.all()
-        return RecipeInSubscriptionSerializer(
-            author_recipes, many=True
-        ).data
+    # def get_recipes(self, object):
+    #     author_recipes = object.recipes.all()
+    #     return RecipeInSubscriptionSerializer(
+    #         author_recipes, many=True
+    #     ).data
+    def get_recipes(self, obj):
+        request = self.context.get('request')
+        limit = request.GET.get('recipes_limit')
+        recipes = obj.recipes.all()
+        if limit:
+            recipes = recipes[:int(limit)]
+        serializer = RecipeInSubscriptionSerializer(recipes, many=True, read_only=True)
+        return serializer.data
 
     def get_recipes_count(self, object):
         return object.recipes.count()

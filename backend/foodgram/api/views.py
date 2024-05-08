@@ -223,6 +223,7 @@ class CustomUserViewSet(UserViewSet):
         )
         serializer = UserSubscriptionSerializer(
             result_pages,
+            context={'request': request},
             many=True
         )
         return self.get_paginated_response(serializer.data)
