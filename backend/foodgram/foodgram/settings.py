@@ -12,9 +12,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-
-# ALLOWED_HOSTS = []
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'KEY_FOR_EXAMPLE')
 
@@ -140,9 +137,8 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = BASE_DIR / 'collected_static'
 
-# Url для формирования ссылки на media
 MEDIA_URL = '/media/'
-# Место на в контейнере backend, где будет лежать медиа
+
 MEDIA_ROOT = '/app/media/'
 
 CSV_FILES_DIR = os.path.join(BASE_DIR, 'data')

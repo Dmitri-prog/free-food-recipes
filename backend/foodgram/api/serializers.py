@@ -202,11 +202,6 @@ class UserSubscriptionSerializer(MyUserSerializer):
             'recipes_count'
         )
 
-    # def get_recipes(self, object):
-    #     author_recipes = object.recipes.all()
-    #     return RecipeInSubscriptionSerializer(
-    #         author_recipes, many=True
-    #     ).data
     def get_recipes(self, obj):
         request = self.context.get('request')
         limit = request.GET.get('recipes_limit')
