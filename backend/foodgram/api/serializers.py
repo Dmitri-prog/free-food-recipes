@@ -1,20 +1,14 @@
 import base64
 
+from django.contrib.auth import get_user_model
+from django.core.exceptions import BadRequest
 from django.core.files.base import ContentFile
-
+from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
-
 from rest_framework.validators import UniqueTogetherValidator
 
-from recipes.models import (
-    Ingredient, Tag, Recipe, RecipeIngredient,
-    Favorite, ShoppingCart, Subscription  
-)
-
-from django.contrib.auth import get_user_model
-
-from djoser.serializers import UserCreateSerializer, UserSerializer
-from django.core.exceptions import BadRequest
+from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
+                            ShoppingCart, Subscription, Tag)
 
 User = get_user_model()
 
@@ -219,7 +213,11 @@ class UserSubscriptionSerializer(MyUserSerializer):
         recipes = obj.recipes.all()
         if limit:
             recipes = recipes[:int(limit)]
-        serializer = RecipeInSubscriptionSerializer(recipes, many=True, read_only=True)
+        serializer = RecipeInSubscriptionSerializer(
+            recipes,
+            many=True,
+            read_only=True
+        )
         return serializer.data
 
     def get_recipes_count(self, object):

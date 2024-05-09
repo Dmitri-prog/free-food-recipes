@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.validators import (RegexValidator, MinValueValidator)
+from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
 User = get_user_model()
@@ -9,11 +9,11 @@ class Ingredient(models.Model):
     """Ингредиенты."""
 
     name = models.CharField(
-        max_length=200, 
+        max_length=200,
         verbose_name='Название'
     )
     measurement_unit = models.CharField(
-        max_length=200, 
+        max_length=200,
         verbose_name='Единицы измерения'
     )
 
@@ -85,7 +85,7 @@ class Recipe(models.Model):
         through='RecipeIngredient',
         through_fields=('recipe', 'ingredient'),
         related_name='recipes',
-        verbose_name='Ингредиенты' 
+        verbose_name='Ингредиенты'
     )
     pub_date = models.DateTimeField(
         verbose_name='Дата публикации',
