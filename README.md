@@ -1,3 +1,7 @@
 # praktikum_new_diplom
 
-# рабочий адрес сайта: https://foodgramm.ddns.net
+Рабочий адрес сайта: https://foodgramm.ddns.net
+
+Данные админа:
+mail: user_main@mail.ru
+password: I_am_main
