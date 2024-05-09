@@ -200,7 +200,7 @@ class CustomUserViewSet(UserViewSet):
             subscription = Subscription.objects.get(
                 subscriber=request.user,
                 author=author
-                )
+            )
         except Subscription.DoesNotExist:
             raise BadRequest()
         subscription.delete()
