@@ -169,3 +169,8 @@ DJOSER = {
         'user_list': ['rest_framework.permissions.AllowAny'],
     },
 }
+
+MIN_VALUE = 1
+MAX_VALUE = 32000
+MAX_LENGTH_BIG = 200
+MAX_LENGTH_SMALL = 7
