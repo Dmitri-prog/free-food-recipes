@@ -58,31 +58,8 @@ class RecipeViewSet(ModelViewSet):
     )
     def favorite(self, request, pk):
         if request.method == 'POST':
-            try:
-                recipe = Recipe.objects.get(pk=pk)
-            except Recipe.DoesNotExist:
-                raise BadRequest()
-            serializer = FavoriteSerializer(
-                data={
-                    'user': request.user.id,
-                    'recipe': recipe.id}
-            )
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            favorite_serializer = RecipePartialSerializer(recipe)
-            return Response(
-                favorite_serializer.data, status=status.HTTP_201_CREATED
-            )
-        recipe = get_object_or_404(Recipe, pk=pk)
-        try:
-            favorite = Favorite.objects.get(
-                user=request.user,
-                recipe=recipe
-            )
-        except Favorite.DoesNotExist:
-            raise BadRequest()
-        favorite.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return self.add_to(FavoriteSerializer, request, pk)
+        return self.delete_from(Favorite, request, pk)
 
     @action(
         detail=True,
@@ -91,29 +68,8 @@ class RecipeViewSet(ModelViewSet):
     )
     def shopping_cart(self, request, pk):
         if request.method == 'POST':
-            try:
-                recipe = Recipe.objects.get(pk=pk)
-            except Recipe.DoesNotExist:
-                raise BadRequest()
-            serializer = ShoppingCartSerializer(
-                data={'user': request.user.id, 'recipe': recipe.id}
-            )
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            shopping_cart_serializer = RecipePartialSerializer(recipe)
-            return Response(
-                shopping_cart_serializer.data, status=status.HTTP_201_CREATED
-            )
-        recipe = get_object_or_404(Recipe, pk=pk)
-        try:
-            shopping_cart = ShoppingCart.objects.get(
-                user=request.user,
-                recipe=recipe
-            )
-        except ShoppingCart.DoesNotExist:
-            raise BadRequest()
-        shopping_cart.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return self.add_to(ShoppingCartSerializer, request, pk)
+        return self.delete_from(ShoppingCart, request, pk)
 
     @staticmethod
     def ingredients_to_txt(ingredients):
@@ -125,6 +81,38 @@ class RecipeViewSet(ModelViewSet):
                 f"({ingredient['ingredient__measurement_unit']})\n"
             )
         return shopping_list
+
+    @staticmethod
+    def add_to(current_serializer, request, pk):
+        try:
+            recipe = Recipe.objects.get(pk=pk)
+        except Recipe.DoesNotExist:
+            raise BadRequest()
+        serializer = current_serializer(
+            data={
+                'user': request.user.id,
+                'recipe': recipe.id
+            }
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        final_serializer = RecipePartialSerializer(recipe)
+        return Response(
+            final_serializer.data, status=status.HTTP_201_CREATED
+        )
+
+    @staticmethod
+    def delete_from(model, request, pk):
+        recipe = get_object_or_404(Recipe, pk=pk)
+        try:
+            current_object = model.objects.get(
+                user=request.user,
+                recipe=recipe
+            )
+        except model.DoesNotExist:
+            raise BadRequest()
+        current_object.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(
         detail=False,
