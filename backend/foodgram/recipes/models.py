@@ -1,10 +1,8 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.validators import (MaxValueValidator, MinValueValidator,
                                     RegexValidator)
 from django.db import models
-
-from foodgram.settings import (MAX_LENGTH_BIG, MAX_LENGTH_SMALL, MAX_VALUE,
-                               MIN_VALUE)
 
 User = get_user_model()
 
@@ -13,11 +11,11 @@ class Ingredient(models.Model):
     """Ингредиенты."""
 
     name = models.CharField(
-        max_length=MAX_LENGTH_BIG,
+        max_length=settings.MAX_LENGTH_BIG,
         verbose_name='Название'
     )
     measurement_unit = models.CharField(
-        max_length=MAX_LENGTH_BIG,
+        max_length=settings.MAX_LENGTH_BIG,
         verbose_name='Единицы измерения'
     )
 
@@ -34,18 +32,18 @@ class Tag(models.Model):
     """Тэги."""
 
     name = models.CharField(
-        max_length=MAX_LENGTH_BIG,
+        max_length=settings.MAX_LENGTH_BIG,
         verbose_name='Название',
         unique=True,
     )
     color = models.CharField(
-        max_length=MAX_LENGTH_SMALL,
+        max_length=settings.MAX_LENGTH_SMALL,
         null=True,
         verbose_name='Цвет',
         unique=True
     )
     slug = models.SlugField(
-        max_length=MAX_LENGTH_BIG,
+        max_length=settings.MAX_LENGTH_BIG,
         null=True,
         verbose_name='Слаг',
         unique=True,
@@ -76,7 +74,7 @@ class Recipe(models.Model):
         verbose_name='Автор'
     )
     name = models.CharField(
-        max_length=MAX_LENGTH_BIG,
+        max_length=settings.MAX_LENGTH_BIG,
         verbose_name='Название рецепта',
     )
     image = models.ImageField(
@@ -102,11 +100,11 @@ class Recipe(models.Model):
         verbose_name='Время приготовления, мин.',
         validators=[
             MinValueValidator(
-                MIN_VALUE,
+                settings.MIN_VALUE,
                 message='Время приготовления должно быть минимум 1 мин.'
             ),
             MaxValueValidator(
-                MAX_VALUE,
+                settings.MAX_VALUE,
                 message='Время приготовления должно быть максимум 32000 мин.'
             )
         ],
@@ -132,11 +130,11 @@ class RecipeIngredient(models.Model):
         verbose_name='Количество',
         validators=[
             MinValueValidator(
-                MIN_VALUE,
+                settings.MIN_VALUE,
                 message='Количество должно быть минимум 1.'
             ),
             MaxValueValidator(
-                MAX_VALUE,
+                settings.MAX_VALUE,
                 message='Количкство должно быть максимум 32000.'
             )
         ]
