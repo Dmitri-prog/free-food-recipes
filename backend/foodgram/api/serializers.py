@@ -1,12 +1,13 @@
 import base64
 
 from django.contrib.auth import get_user_model
-from django.core.exceptions import BadRequest
 from django.core.files.base import ContentFile
+from django.shortcuts import get_object_or_404
 from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
+from foodgram.settings import (MAX_VALUE, MIN_VALUE)
 from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                             ShoppingCart, Subscription, Tag)
 
@@ -39,6 +40,10 @@ class TagSerializer(serializers.ModelSerializer):
 class IngredientRecipeSerializer(serializers.ModelSerializer):
     id = serializers.PrimaryKeyRelatedField(
         queryset=Ingredient.objects.all()
+    )
+    amount = serializers.IntegerField(
+        max_value=MAX_VALUE,
+        min_value=MIN_VALUE
     )
 
     class Meta:
@@ -243,7 +248,8 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_ingredients(object):
-        ingredients = RecipeIngredient.objects.filter(recipe=object)
+        recipe = get_object_or_404(Recipe, id=object.id)
+        ingredients = recipe.recipes.all()
         return IngredientRecipeAllSerializer(ingredients, many=True).data
 
     def get_is_favorited(self, object):
@@ -273,6 +279,10 @@ class RecipeFullSerializer(serializers.ModelSerializer):
     ingredients = IngredientRecipeSerializer(many=True, required=True)
     image = Base64ImageField(use_url=True, max_length=None)
     author = MyUserSerializer(read_only=True)
+    cooking_time = serializers.IntegerField(
+        max_value=MAX_VALUE,
+        min_value=MIN_VALUE
+    )
 
     class Meta:
         model = Recipe
@@ -288,10 +298,11 @@ class RecipeFullSerializer(serializers.ModelSerializer):
         )
 
     def validate(self, data):
-        try:
-            tags_data = data['tags']
-        except Exception:
-            raise BadRequest()
+        if 'tags' not in data:
+            raise serializers.ValidationError(
+                'Обязательное поле "tags" отсутствует!'
+            )
+        tags_data = data['tags']
         if len(tags_data) != len(set(tags_data)):
             raise serializers.ValidationError(
                 'Вы уже добавили этот тэг!'
@@ -302,7 +313,7 @@ class RecipeFullSerializer(serializers.ModelSerializer):
         ingredients_data = [
             ingredient.get('id') for ingredient in ingredients
         ]
-        if len(ingredients_data) == 0:
+        if not ingredients_data:
             raise serializers.ValidationError(
                 'В рецепте должен быть хотя бы один ингредиент!'
             )
@@ -310,11 +321,6 @@ class RecipeFullSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'Ингредиент необходимо добавлять в рецепт только один раз!'
             )
-        for ingredient in ingredients:
-            if int(ingredient.get('amount')) < 1:
-                raise serializers.ValidationError(
-                    'Каждого ингредиента в рецепте должно быть >= 1!'
-                )
         return ingredients
 
     @staticmethod
@@ -351,8 +357,11 @@ class RecipeFullSerializer(serializers.ModelSerializer):
         instance.tags.set(tags_data)
         ingredients_data = validated_data.get('ingredients')
         if ingredients_data is None:
-            raise BadRequest()
-        RecipeIngredient.objects.filter(recipe=recipe).delete()
+            raise serializers.ValidationError(
+                'Ингредиенты отсутствуют!'
+            )
+        recipe = get_object_or_404(Recipe, id=recipe.id)
+        recipe.recipes.all().delete()
         self.add_ingredients(ingredients_data, recipe)
         instance.save()
         return instance
