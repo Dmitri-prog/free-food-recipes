@@ -1,5 +1,6 @@
 import base64
 
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
@@ -7,7 +8,6 @@ from djoser.serializers import UserCreateSerializer, UserSerializer
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from foodgram.settings import MAX_VALUE, MIN_VALUE
 from recipes.models import (Favorite, Ingredient, Recipe, RecipeIngredient,
                             ShoppingCart, Subscription, Tag)
 
@@ -42,8 +42,8 @@ class IngredientRecipeSerializer(serializers.ModelSerializer):
         queryset=Ingredient.objects.all()
     )
     amount = serializers.IntegerField(
-        max_value=MAX_VALUE,
-        min_value=MIN_VALUE
+        max_value=settings.MAX_VALUE,
+        min_value=settings.MIN_VALUE
     )
 
     class Meta:
@@ -280,8 +280,8 @@ class RecipeFullSerializer(serializers.ModelSerializer):
     image = Base64ImageField(use_url=True, max_length=None)
     author = MyUserSerializer(read_only=True)
     cooking_time = serializers.IntegerField(
-        max_value=MAX_VALUE,
-        min_value=MIN_VALUE
+        max_value=settings.MAX_VALUE,
+        min_value=settings.MIN_VALUE
     )
 
     class Meta:
