@@ -209,10 +209,10 @@ TELEGRAM_TOKEN - токен Вашего телеграм-бота, получи
    GET /api/v1/recipes/download_shopping_cart/
 ```
 
-### Полный список запросов API находятся в документации
+Все доступные варианты запросов к API, а также примеры ответов API можно посмотреть после запуска проекта в его документации, выполнив запрос
 
 ```
-   foodgram-project-react/docs/redoc.html
+   foodgram-project-react/docs/redoc/
 ```
 
 ### Автор
