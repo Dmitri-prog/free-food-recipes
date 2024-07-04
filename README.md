@@ -8,7 +8,7 @@
 [![Gunicorn](https://img.shields.io/badge/gunicorn-%23006400?style=for-the-badge&logo=gunicorn&logoColor=%23FFFFFF)](https://gunicorn.org/)
 [![YandexCloud](https://img.shields.io/badge/yandex%20cloud-%231E90FF?style=for-the-badge&logo=yandexcloud&logoColor=%23FFFFFF)](https://yandex.cloud/ru/)
 [![GitHubActions](https://img.shields.io/badge/github%20actions-%23000000?style=for-the-badge&logo=githubactions&logoColor=%23FFFFFF)](https://docs.github.com/en/actions)
-[![Telegram](https://img.shields.io/badge/telegram-%2300BFFF?style=for-the-badge&logo=telegram&logoColor=%23FFFFFF)](https://web.telegram.org/)
+[![Telegram](https://img.shields.io/badge/telegram-%231E90FF?style=for-the-badge&logo=telegram&logoColor=%23FFFFFF)](https://web.telegram.org/)
 
 ### Описание
 
