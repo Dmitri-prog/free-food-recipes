@@ -1,29 +1,31 @@
-# Проект "Фудграм" - сайт для публикации своих рецептов.
-
-[![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
-[![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
-[![Django REST Framework](https://img.shields.io/badge/-Django%20REST%20Framework-464646?style=flat-square&logo=Django%20REST%20Framework)](https://www.django-rest-framework.org/)
-[![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-464646?style=flat-square&logo=PostgreSQL)](https://www.postgresql.org/)
-[![Nginx](https://img.shields.io/badge/-NGINX-464646?style=flat-square&logo=NGINX)](https://nginx.org/ru/)
-[![gunicorn](https://img.shields.io/badge/-gunicorn-464646?style=flat-square&logo=gunicorn)](https://gunicorn.org/)
-[![docker](https://img.shields.io/badge/-Docker-464646?style=flat-square&logo=docker)](https://www.docker.com/)
-[![GitHub%20Actions](https://img.shields.io/badge/-GitHub%20Actions-464646?style=flat-square&logo=GitHub%20actions)](https://github.com/features/actions)
-[![Yandex.Cloud](https://img.shields.io/badge/-Yandex.Cloud-464646?style=flat-square&logo=Yandex.Cloud)](https://cloud.yandex.ru/)
+## Проект cайта для публикации рецептов
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![DjangoREST](https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray)](https://www.django-rest-framework.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-07405E?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Nginx](https://img.shields.io/badge/nginx-%23008000?style=for-the-badge&logo=nginx)](https://nginx.org/ru/)
+[![Docker](https://img.shields.io/badge/docker-%231E90FF?style=for-the-badge&logo=docker&logoColor=%23FFFFFF)](https://www.docker.com/)
+[![Gunicorn](https://img.shields.io/badge/gunicorn-%23006400?style=for-the-badge&logo=gunicorn&logoColor=%23FFFFFF)](https://gunicorn.org/)
+[![YandexCloud](https://img.shields.io/badge/yandex%20cloud-%231E90FF?style=for-the-badge&logo=yandexcloud&logoColor=%23FFFFFF)](https://yandex.cloud/ru/)
+[![GitHubActions](https://img.shields.io/badge/github%20actions-%23000000?style=for-the-badge&logo=githubactions&logoColor=%23FFFFFF)](https://docs.github.com/en/actions)
+[![Telegram](https://img.shields.io/badge/telegram-%2300BFFF?style=for-the-badge&logo=telegram&logoColor=%23FFFFFF)](https://web.telegram.org/)
 
 ## Описание
 
-«Фудграм» — сайт, на котором пользователи могут публиковать рецепты, добавлять чужие рецепты в избранное и подписываться на публикации других авторов. Пользователям сайта также доступен сервис «Список покупок». Он позволяет создавать список продуктов, которые нужно купить для приготовления выбранных блюд.
+Сайт для публикации рецептов, добавления рецептов в избранное и возможности подписки на публикации других авторов.
+
+Реализован REST API сервис для взаимодействия с базой данных, авторизация на JW-токенах. Проект упакован в Docker-контейнеры и настроен CI/CD с подтверждением успешной сборки проекта через telegram-бот.
 
 ## Как запустить проект на удаленном сервере:
 
 1. Клонировать репозиторий на локальный компьютер и перейти в него в командной строке:
 
 ```
-git clone https//:github.com/Dmitri-prog/foodgram-project-react.git
+git clone https://github.com/Dmitri-prog/free-food-recipes.git
 ```
 
 ```
-cd foodgram-project-react
+cd free-food-recipes
 ```
 
 2. Cоздать в корне проекта файл .env и заполнить его (пример файла .env см. в приложенном файле .env.example). Описание переменных виртуального окружения файла .env для работы проекта:
@@ -207,22 +209,12 @@ TELEGRAM_TOKEN - токен Вашего телеграм-бота, получи
    GET /api/v1/recipes/download_shopping_cart/
 ```
 
-Проект доступен по адресу: <http://foodgramm.ddns.net/>
-
-Доступ в админ-зону сайта:
-
-```bash
-   email - user_main@mail.ru
-   пароль - I_am_main
-```
-
-
 ## Полный список запросов API находятся в документации
 
 ```
    foodgram-project-react/docs/redoc.html
 ```
 
-#### Автор
+## Автор
 
-Марков Дмитрий - [https://github.com/Dmitri-prog/](https://github.com/Dmitri-prog/)
+Марков Дмитрий
